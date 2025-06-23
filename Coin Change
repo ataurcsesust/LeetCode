@@ -1,0 +1,21 @@
+class Solution {
+public:
+     int f(vector<int>&coins,int amount,int ind,vector<vector<int>>&dp){
+         if(amount<0 || ind<0) return INT_MAX;
+         if(amount==0) return 0;
+         if(dp[ind][amount]!=-1) return dp[ind][amount];
+         int take= f(coins,amount-coins[ind],ind,dp);
+         if(take!=INT_MAX) take++;
+         int notTake=f(coins,amount,ind-1,dp);
+         return dp[ind][amount]=min(take,notTake);
+     }
+    int coinChange(vector<int>& coins, int amount) {
+           int n=coins.size();
+         vector<vector<int>>dp(n,vector<int>(amount+1,-1));
+        int ans= f(coins,amount,n-1,dp);
+        return (ans == INT_MAX) ? -1 : ans;
+    }
+};
+
+
+
